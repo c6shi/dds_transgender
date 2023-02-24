@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+import numpy as np
 
 
 def tsv_to_csv(tsv_fp, new_fp):
