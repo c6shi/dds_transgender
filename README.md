@@ -1,7 +1,9 @@
 # Data Analysis on Health for Transgenders
 
 Project Lead: Zhen Fang
+
 Project Members: Yuancheng Cao, Leena Kang, Jiyeon Song, Candus Shi
+
 Mentor: Dr. Haojian Jin
 
 This project was made possible by Diversity in Data Science (DDS) at UC San Diego.
