@@ -1,5 +1,11 @@
 # NOTES ABOUT THE DATA
 
+### 03/03 (Fri)
+- Q190: missing data depends on the value of Q189 (missing by design)
+	- Q190_1 to Q190_6 use 7 as planned missing value
+	- Q190_8 to Q190_10 use 97 as planned missing value
+- when there is missing data in a supposedly ordinal encoded column, the integers are actually strings, not integers
+
 ### 02/24 (Fri)
 - all the necessary metadata and documentation are in the DS0005 → don't really need the other two (DS0001 and DS0003)
 - ...User_guide.pdf ← one should start here
