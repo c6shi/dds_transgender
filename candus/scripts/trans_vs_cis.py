@@ -2,8 +2,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
-
-from scripts.codebook import codebook, questions
+import json
 
 
 def trans_vs_cis(df, q):
@@ -14,7 +13,9 @@ def trans_vs_cis(df, q):
     :returns: a plotly express figure (bar chart)
     """
     df = df.copy()
-    df = df[['TRANS_CIS', q, 'SEX']]
+    df = df[['TRANS_CIS', q, 'SEX']].astype(str)
+    codebook = json.load(codebook.json)
+    questions = json.load(questions.json)
     df['TRANS_CIS'] = df['TRANS_CIS'].map(codebook['TRANS_CIS'])
     df[q] = df[q].map(codebook[q])
     dfpivot = df.pivot_table(
@@ -45,5 +46,4 @@ def trans_vs_cis(df, q):
         title=''
     )
     fig.update_traces(textposition='outside', textfont_size=9)
-    # fig.show()
     return fig 
