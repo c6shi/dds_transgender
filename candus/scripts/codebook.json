@@ -11,9 +11,48 @@
         "5": "Trans GNB (Gender Non-Binary)",
         "6": "Trans not specified"
     },
+    "RACE_RECODE_CAT5": {
+        "1": "White",
+        "2": "Black",
+        "3": "Latino",
+        "4": "Multirace",
+        "5": "Other"
+    },
     "TRANS_CIS": {
         "1": "Trans",
         "2": "Cis"
+    },
+    "SURVEYCOMPLETED": {
+        "0": "TransPop1",
+        "1": "TransPop2",
+        "2": "Cisgender"
+    },
+    "Q82": {
+        "1": "There is NO place",
+        "2": "Yes, there are one or more places"
+    },
+    "Q84": {
+        "1": "Very satisfied",
+        "2": "Mostly satisfied",
+        "3": "Neutral",
+        "4": "Mostly dissatisfied",
+        "5": "Very dissatisfied",
+        "7": "Planned missing"
+    },
+    "Q85": {
+        "1": "Yes",
+        "2": "No"
+    },
+    "Q93": {
+        "1": "Poor",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very good",
+        "5": "Excellent"
+    },
+    "Q97_1": {
+        "1": "Hypertension",
+        " ": "N/A"
     },
     "Q105": {
         "1": "About once every 6 months",

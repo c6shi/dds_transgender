@@ -14,8 +14,10 @@ def trans_vs_cis(df, q):
     """
     df = df.copy()
     df = df[['TRANS_CIS', q, 'SEX']].astype(str)
-    codebook = json.load(codebook.json)
-    questions = json.load(questions.json)
+    with open('scripts/codebook.json', 'r') as f:
+        codebook = json.load(f)
+    with open('scripts/questions.json', 'r') as f:
+        questions = json.load(f)
     df['TRANS_CIS'] = df['TRANS_CIS'].map(codebook['TRANS_CIS'])
     df[q] = df[q].map(codebook[q])
     dfpivot = df.pivot_table(
