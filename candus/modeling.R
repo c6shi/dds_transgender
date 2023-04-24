@@ -17,6 +17,7 @@ Q84_ordered = factor(healthcare$Q84,
                      ordered=T, 
                      levels=c("Very satisfied", "Mostly satisfied", "Neutral", "Mostly dissatisfied", "Very dissatisfied"))
 
+# need to add covariates and interactions
 model = polr(Q84_ordered ~ TRANS_CIS, data=healthcare, Hess=T)
 summary(model)
 exp(coef(model))
