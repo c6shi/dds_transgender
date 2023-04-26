@@ -1,11 +1,25 @@
 setwd("~/projects/dds_transgender/candus")
 
+require(coin)
 require(MASS)
 require(ggplot2)
 require(foreign)
 require(Hmisc)
 require(reshape2)
 
+# Mann Whitney U Test
+q84 = read.csv("q84.csv", header=T)
+q84.trans = q84$X1[1:5]
+q84.cis = q84$X2[1:5]
+wilcox.test(q84.trans, q84.cis)
+
+
+# Fisher's Test
+q88 = read.csv("q88.csv", header=T)
+chisq.test(q88)
+fisher.test(q88)
+
+# Ordinal Logistic Regression
 healthcare = read.csv("healthcare.csv", header=T)
 head(healthcare)
 
