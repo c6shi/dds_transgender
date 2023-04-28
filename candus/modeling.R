@@ -14,6 +14,15 @@ q84.cis = q84$X2[1:5]
 wilcox.test(q84.trans, q84.cis)
 
 
+# Q85
+X_T = 86
+X_C = 206
+n = 273
+m = 1138
+p_e = (X_T + X_C) / (n + m)
+Z = ((X_T / n) - (X_C / m)) / sqrt(((p_e * (1 - p_e)) / n) + (p_e * (1 - p_e) / m))
+pnorm(Z, lower=F)
+
 # Fisher's Test
 q88 = read.csv("q88.csv", header=T)
 chisq.test(q88)
