@@ -8,16 +8,28 @@ require(Hmisc)
 require(reshape2)
 
 # Mann Whitney U Test
-q84 = read.csv("q84.csv", header=T)
-q84.trans = q84$X1[1:5]
-q84.cis = q84$X2[1:5]
+q84 = read.csv("q84.csv", header=T)74
+q84.trans = q84$X1
+q84.cis = q84$X2
 wilcox.test(q84.trans, q84.cis)
+X_T = 74
+X_C = 119
+n = 269
+m = 1133
 
+p_T = X_T / n
+p_C = X_C / m
+p_e = (X_T + X_C) / (n + m)
+Z = (p_T - p_C) / sqrt((p_e * (1 - p_e) / n) + (p_e * (1 - p_e) / m))
+pnorm(Z, lower=F)
 
 # Fisher's Test
 q88 = read.csv("q88.csv", header=T)
+q88 = q88[, c("X1", "X2")]
 chisq.test(q88)
 fisher.test(q88)
+
+
 
 # Ordinal Logistic Regression
 healthcare = read.csv("healthcare.csv", header=T)
