@@ -7,30 +7,45 @@ require(foreign)
 require(Hmisc)
 require(reshape2)
 
+# Two-Proportion Z-Test
+two_prop_z = function(X_T, X_C, n, m) {
+  p_T = X_T / n
+  p_C = X_C / m
+  p_e = (X_T + X_C) / (n + m)
+  Z = (p_T - p_C) / sqrt((p_e * (1 - p_e) / n) + (p_e * (1 - p_e) / m))
+  p_value = pnorm(Z, lower=F)
+  return (p_value)
+}
+
 # Mann Whitney U Test
 q84 = read.csv("q84.csv", header=T)74
 q84.trans = q84$X1
 q84.cis = q84$X2
 wilcox.test(q84.trans, q84.cis)
-X_T = 74
-X_C = 119
-n = 269
-m = 1133
 
+
+# Q85
+X_T_85 = 86
+X_C_85 = 206
+n_85 = 273
+m_85 = 1138
+p_e = (X_T + X_C) / (n + m)
+Z = ((X_T / n) - (X_C / m)) / sqrt(((p_e * (1 - p_e)) / n) + (p_e * (1 - p_e) / m))
+pnorm(Z, lower=F)
+two_prop_z(X_T_85, X_C_85, n_85, m_85)
+
+# Q88
+X_T_88 = 74
+X_C_88 = 119
+n_88 = 269
+m_88 = 1133
+two_prop_z(X_T_88, X_C_88, n_88, m_88)
 p_T = X_T / n
 p_C = X_C / m
 p_e = (X_T + X_C) / (n + m)
 Z = (p_T - p_C) / sqrt((p_e * (1 - p_e) / n) + (p_e * (1 - p_e) / m))
 pnorm(Z, lower=F)
 
-# Q85
-X_T = 86
-X_C = 206
-n = 273
-m = 1138
-p_e = (X_T + X_C) / (n + m)
-Z = ((X_T / n) - (X_C / m)) / sqrt(((p_e * (1 - p_e)) / n) + (p_e * (1 - p_e) / m))
-pnorm(Z, lower=F)
 
 # Fisher's Test
 q88 = read.csv("q88.csv", header=T)
