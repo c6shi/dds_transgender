@@ -34,6 +34,14 @@ Z = ((X_T / n) - (X_C / m)) / sqrt(((p_e * (1 - p_e)) / n) + (p_e * (1 - p_e) / 
 pnorm(Z, lower=F)
 two_prop_z(X_T_85, X_C_85, n_85, m_85)
 
+# Q85 + stratified income
+# high
+prop.test(x=c(14, 50), n=c(46, 350), alternative='greater')
+# mid
+prop.test(x=c(18, 66), n=c(70, 370), alternative='greater')
+# low
+prop.test(x=c(54, 90), n=c(157, 418), alternative='greater')
+
 # Q88
 X_T_88 = 74
 X_C_88 = 119
@@ -45,6 +53,16 @@ p_C = X_C / m
 p_e = (X_T + X_C) / (n + m)
 Z = (p_T - p_C) / sqrt((p_e * (1 - p_e) / n) + (p_e * (1 - p_e) / m))
 pnorm(Z, lower=F)
+
+prop.test(x=c(74, 119), n=c(269, 1133), alternative='greater', correct=F)
+
+# Q88 + stratified income
+# high
+prop.test(x=c(5, 13), n=c(45, 346), alternative='greater', correct=T)
+# middle
+prop.test(x=c(14, 30), n=c(70, 368), alternative='greater', correct=T)
+# low
+prop.test(x=c(55, 76), n=c(99, 419), alternative='greater', correct=T)
 
 
 # Fisher's Test
