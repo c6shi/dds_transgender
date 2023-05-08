@@ -1,0 +1,126 @@
+---
+title: "Q88: Logistic Regression"
+output: pdf_document
+date: '2023-05-07'
+author: "Candus Shi"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Q88: Was there a time in the past 12 months when you needed to see a doctor but could not because of the cost?
+
+We use a logistic regression model to test whether more transgenders answer "Yes" to this question than cisgenders.
+
+$H_0$: $\beta_1 \neq 0$
+
+$H_1$: $\beta_1 > 0$
+
+where $\beta_1$ is the coefficient for the TRANS_CIS variable. 
+
+To test whether to add a new feature and/or possible interaction terms, we choose the term with the lowest p-value and update the model. We repeat this until the lowest p-value $> \alpha = 0.05$
+
+## Index of Variables
+- $Y$ (response variable): answer to Q88; binomial; No (0), Yes (1)
+- $G$ (variable of interest): TRANS_CIS; binomial; Cisgender (0), Transgender (1)
+- $I$: HINC_I (household income imputated); continuous quantitative (standardized)
+- $A$: AGE; discrete quantitative (standardized)
+
+## Setup
+```{r load}
+library(car)
+library(flexmix)
+q88 = read.csv("q88.csv", header=T)
+head(q88)
+```
+
+\newpage
+# (V1) Baseline Model
+$Y \sim \beta_0 + \beta_1 G$
+
+```{r v1}
+q88logitv1 = glm(Q88 ~ TRANS_CIS, data=q88, family="binomial")
+summary(q88logitv1)
+BIC(q88logitv1)
+```
+
+There is no multicollinearity to consider because there is only one feature. With this model, we reject $H_0$ because $\beta_1 = 1.1736$ with a p-value of $2.39 \times 10^{-12}$. Given a standard error of $0.1674$, its 95% CI is $[0.8430526, \infty)$.
+
+\newpage
+# (V2a) Household Income Imputated, 14 Ordinal Categories
+$Y \sim \beta_0 + \beta_1 G + \gamma_1 I_1 + \gamma_2 I_2 + ... + \gamma_{13} I_{13}$
+
+```{r v2a}
+q88$HINC_I = factor(q88$HINC_I)
+q88logitv2a = glm(Q88 ~ TRANS_CIS + HINC_I, data=q88, family="binomial")
+summary(q88logitv2a)
+vif(q88logitv2a)
+BIC(q88logitv2a)
+```
+
+As shown by the VIFs, there is no significant multicollinearity. With this model, we reject $H_0$ because $\beta_1 = 0.92693$ with a p-value of $1.49 \times 10^{-7}$. Given a standard error of $0.17644$, its 95% CI is $[0.5785093, \infty)$.
+
+\newpage
+# (V2b) Household Income Imputated, Means of Bins
+$Y \sim \beta_0 + \beta_1 G + \gamma I$
+
+Since the v2a model had split the income variable into 14 categories, this led to its BIC score increasing, while its AIC decreased. We try to resolve this by taking the mean of each income category and standardizing to create a continuous quantitative income feature. (Suraj's idea)
+
+```{r v2b}
+q88logitv2b = glm(Q88 ~ TRANS_CIS + HINC_I_means, data=q88, family="binomial")
+summary(q88logitv2b)
+vif(q88logitv2b)
+BIC(q88logitv2b)
+```
+
+Again, we don't see multicollinearity as the VIF scores are near 1. We also reject $H_0$ because $\beta_1 = 0.9264$ with a p-value of $9.84 \times 10^{-8}$. Given a standard error of $0.1738$, its 95% CI is $[0.5831262, \infty)$.
+
+\newpage
+# (V2c) Household Income Imputated, 3 Ordinal Categories
+$Y \sim \beta_0 + \beta_1 G + \gamma_1 I_1 + \gamma_2 I_2$
+
+We show another attempt to maintain HINC_I as an ordinal feature, but by reducing the number of categories by stratifying by low, middle and high income. Low income is defined to be less than \$50,000; middle income is defined to be from \$50,000 to \$100,000 and high income is defined to be more than \$100,000. Note that this survey was conducted in from 2016-2018.
+
+```{r v2c}
+q88$HINC_I_strat = factor(q88$HINC_I_strat)
+q88logitv2c = glm(Q88 ~ TRANS_CIS + HINC_I_strat, data=q88, family="binomial")
+summary(q88logitv2c)
+vif(q88logitv2c)
+BIC(q88logitv2c)
+```
+
+\newpage
+# (V2d) Household Income Imputated, Means + Interaction
+$Y \sim \beta_0 + \beta_1 G + \gamma I + \delta GI$
+
+Since the means of the imputated household income was the best way to represent household income in terms of models scoring, we investigate whether we should add the interaction between TRANS_CIS and HINC_I. 
+
+```{r v2d}
+q88logitv2d = glm(Q88 ~ TRANS_CIS + HINC_I_means + TRANS_CIS:HINC_I_means, data=q88, family="binomial")
+summary(q88logitv2d)
+vif(q88logitv2d)
+BIC(q88logitv2d)
+```
+
+Since the p-value of the interaction term is 0.9, we do not need to include it in the following iterations of the model. As a result, we determine that for the income variable, V2b is the best model. 
+
+\newpage
+# (V3a) Age
+$Y \sim \beta_0 + \beta_1 G + \gamma A$
+
+First, we do a baseline model with just our variable of interest and the new AGE feature.
+
+\newpage
+# (V3b) Household Income Imputated, Means + Age
+
+\newpage
+# Model Metrics
+| Model | $\beta_1$ Estimate | $\beta_1$ 95% CI     | p-value                | AIC      | BIC      | Highest VIF |
+| :---- | :-----             | :-----               | :--------              | :----    | -----    | -----       |
+| V1    | 1.1736             | $[0.8431, \infty)$   | $2.39 \times 10^{-12}$ | 1081.9   | 1092.347 | N/A         |
+| V2a   | 0.92693            | $[0.5785, \infty)$   | $1.49 \times 10^{-7}$  | 1034.3   | 1112.986 | 1.038895    |
+| V2b   | 0.9264             | $[0.5831, \infty)$   | $9.84 \times 10^{-8}$  | 1018.1   | 1033.799 | 1.01758     |
+| V2c   | 0.9695             | $[0.6281, \infty)$   | $2.05 \times 10^{-8}$  | 1025.9   | 1046.891 | 1.011777    |
+| V2d   | 0.90943            | $[0.4589, \infty)$   | $3.08 \times 10^{-5}$  | 1020     | 1041.028 | 1.638341    |
+
