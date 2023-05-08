@@ -27,6 +27,36 @@
         "1": "TransPop2",
         "2": "Cisgender"
     },
+    "POVERTYCAT_I" : {
+        "1": "<100%",
+        "2": "100%-199%",
+        "3": "200-299%",
+        "4": ">300%"
+    },
+    "GEDUCATION": {
+        "1": "Less than high school diploma",
+        "2": "High school degree or diploma",
+        "3": "Technical/vocational school",
+        "4": "Some college",
+        "5": "College graduate",
+        "6": "Post graduate work or degree"
+    },
+    "HINC_I": {
+        "0": "No income",
+        "1": "$1 to $4,999",
+        "2": "$5,000 to $9,999",
+        "3": "$10,000 to $14,999",
+        "4": "$15,000 to $19,999",
+        "5": "$20,000 to $24,999",
+        "6": "$25,000 to $29,999",
+        "7": "$30,000 to $39,999",
+        "8": "$40,000 to $49,999",
+        "9": "$50,000 to $59,999",
+        "10": "$60,000 to $74,999",
+        "11": "$75,000 to $99,999",
+        "12": "$100,000 to $149,999",
+        "13": "$150,000 or more"
+    },
     "Q82": {
         "1": "There is NO place",
         "2": "Yes, there are one or more places"
@@ -57,6 +87,10 @@
     "Q97_1": {
         "1": "Hypertension",
         " ": "N/A"
+    },
+    "Q99": {
+        "1": "Yes",
+        "2": "No"
     },
     "Q105": {
         "1": "About once every 6 months",
@@ -109,6 +143,24 @@
         "3": "I am for it",
         "4": "I don't have an opinion",
         "5": "I don't know enough about it"
+    },
+    "Q200": {
+        "1": "Yes",
+        "2": "No"
+    },
+    "Q205_I": {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "10": "10",
+        "11": "More than 10"
     }
 }
 

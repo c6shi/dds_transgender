@@ -1,15 +1,23 @@
 {
+  "RACE_RECODE_CAT5": "Race (5 Categories)",
+  "POVERTYCAT_I": "Poverty-to-income ratio with imputation",
+  "SEX": "Sex at birth",
+  "GEDUCATION": "Education (Official)",
+  "HINC_I": "Household income with imputation",
   "Q82": "Is there a place that you usually go to when you are sick or need advice about your health?",
   "Q84": "Overall, how satisfied are you with the healthcare you receive at this place?",
   "Q85": "Do you have one person you think of as your personal doctor or healthcare provider?",
   "Q88": "Was there a time in the past 12 months when you needed to see a doctor but could not<br>because of the cost?",
   "Q93": "Would you say that in general your health is...",
   "Q97_1": "Have you EVER been told by a doctor or a health professional that you had any of the following? Please mark all that apply...Hypertension",
+  "Q99": "Do you now have any health problem that requires you to use special equipment,<br>such as a cane, a wheelchair, a special bed, or a special telephone?<br>Please include occasional use or use in certain circumstances.",
   "Q105": "About how often do you get tested for STIs other than HIV?",
   "Q106": "About how often do you get tested for HIV?",
   "Q107": "How often do you worry that you might get HIV?",
   "Q108": "How likely is it that you will become HIV-positive in your lifetime?",
   "Q109": "Are you currently taking Truvada as pre-exposure prophylaxis (PrEP)?",
   "Q110": "Truvada is a pill that HIV negative people can take to prevent HIV infection.<br>This is called PrEP. How familiar are you with Truvada as PrEP?",
-  "Q111": "Are you for or against HIV-negative people taking Truvada as PrEP to prevent the transmission of HIV?"
+  "Q111": "Are you for or against HIV-negative people taking Truvada as PrEP to prevent the transmission of HIV?",
+  "Q200": "Do you have any children?",
+  "Q205_I": "Number of people on that household income with imputation"
 }

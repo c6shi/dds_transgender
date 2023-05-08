@@ -13,7 +13,8 @@ def trans_vs_cis(df, q):
     :returns: a plotly express figure (bar chart)
     """
     df = df.copy()
-    df = df[['TRANS_CIS', q, 'SEX']].astype(str)
+    df[f'{q}_copy'] = df[q]
+    df = df[['TRANS_CIS', q, f'{q}_copy']].astype(str)
     with open('scripts/codebook.json', 'r') as f:
         codebook = json.load(f)
     with open('scripts/questions.json', 'r') as f:
@@ -23,7 +24,7 @@ def trans_vs_cis(df, q):
     dfpivot = df.pivot_table(
         index=q,
         columns='TRANS_CIS',
-        values='SEX',
+        values=f'{q}_copy',
         aggfunc='count'
     )
     dfpivot = dfpivot.reindex(codebook[q].values())

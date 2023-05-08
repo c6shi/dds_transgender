@@ -43,6 +43,7 @@ $Y \sim \beta_0 + \beta_1 G$
 q88logitv1 = glm(Q88 ~ TRANS_CIS, data=q88, family="binomial")
 summary(q88logitv1)
 BIC(q88logitv1)
+confint(q88logitv1)
 ```
 
 There is no multicollinearity to consider because there is only one feature. With this model, we reject $H_0$ because $\beta_1 = 1.1736$ with a p-value of $2.39 \times 10^{-12}$. Given a standard error of $0.1674$, its 95% CI is $[0.8430526, \infty)$.
@@ -57,6 +58,7 @@ q88logitv2a = glm(Q88 ~ TRANS_CIS + HINC_I, data=q88, family="binomial")
 summary(q88logitv2a)
 vif(q88logitv2a)
 BIC(q88logitv2a)
+confint(q88logitv2a)
 ```
 
 As shown by the VIFs, there is no significant multicollinearity. With this model, we reject $H_0$ because $\beta_1 = 0.92693$ with a p-value of $1.49 \times 10^{-7}$. Given a standard error of $0.17644$, its 95% CI is $[0.5785093, \infty)$.
@@ -72,6 +74,7 @@ q88logitv2b = glm(Q88 ~ TRANS_CIS + HINC_I_means, data=q88, family="binomial")
 summary(q88logitv2b)
 vif(q88logitv2b)
 BIC(q88logitv2b)
+confint(q88logitv2b)
 ```
 
 Again, we don't see multicollinearity as the VIF scores are near 1. We also reject $H_0$ because $\beta_1 = 0.9264$ with a p-value of $9.84 \times 10^{-8}$. Given a standard error of $0.1738$, its 95% CI is $[0.5831262, \infty)$.
@@ -88,6 +91,7 @@ q88logitv2c = glm(Q88 ~ TRANS_CIS + HINC_I_strat, data=q88, family="binomial")
 summary(q88logitv2c)
 vif(q88logitv2c)
 BIC(q88logitv2c)
+confint(q88logitv2c)
 ```
 
 \newpage
@@ -101,6 +105,7 @@ q88logitv2d = glm(Q88 ~ TRANS_CIS + HINC_I_means + TRANS_CIS:HINC_I_means, data=
 summary(q88logitv2d)
 vif(q88logitv2d)
 BIC(q88logitv2d)
+confint(q88logitv2d)
 ```
 
 Since the p-value of the interaction term is 0.9, we do not need to include it in the following iterations of the model. As a result, we determine that for the income variable, V2b is the best model. 
@@ -111,8 +116,30 @@ $Y \sim \beta_0 + \beta_1 G + \gamma A$
 
 First, we do a baseline model with just our variable of interest and the new AGE feature.
 
+```{r v3a}
+q88logitv3a = glm(Q88 ~ TRANS_CIS + AGE, data=q88, family="binomial")
+summary(q88logitv3a)
+vif(q88logitv3a)
+BIC(q88logitv3a)
+confint(q88logitv3a)
+```
+
+This model is clearly worse than the model with just TRANS_CIS and HINC_I. It also has a higher p-value than that of the HINC_I_means covariate Therefore, we will add HINC_I_means to the final model. 
+
 \newpage
 # (V3b) Household Income Imputated, Means + Age
+$Y \sim \beta_0 + \beta_1 G + \gamma_1 I + \gamma_2 A$
+
+We investigate whether adding age builds a better model. 
+
+```{r v3b}
+q88logitv3b = glm(Q88 ~ TRANS_CIS + HINC_I_means + AGE, data=q88, family="binomial")
+summary(q88logitv3b)
+vif(q88logitv3b)
+BIC(q88logitv3b)
+confint(q88logitv3b)
+```
+
 
 \newpage
 # Model Metrics
@@ -123,4 +150,5 @@ First, we do a baseline model with just our variable of interest and the new AGE
 | V2b   | 0.9264             | $[0.5831, \infty)$   | $9.84 \times 10^{-8}$  | 1018.1   | 1033.799 | 1.01758     |
 | V2c   | 0.9695             | $[0.6281, \infty)$   | $2.05 \times 10^{-8}$  | 1025.9   | 1046.891 | 1.011777    |
 | V2d   | 0.90943            | $[0.4589, \infty)$   | $3.08 \times 10^{-5}$  | 1020     | 1041.028 | 1.638341    |
-
+| V3a   | 0.68039            | $[0.3116, \infty)$   | $0.000267$             | 1045.5   | 1061.237 | 1.195264    |
+| V3b   | 
