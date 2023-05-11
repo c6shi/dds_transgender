@@ -11,12 +11,12 @@ library(plotmo)
 q88 = read.csv("q88.csv", header=T)
 q88 = q88[, !names(q88) %in% c("X", "SEX", "GENDER_IDENTITY", "CURRENT_SEX")]
 
-q88$GEDUCATION = factor(q88$GEDUCATION)
-q88$Q93 = factor(q88$Q93)
+q88$GEDUCATION = factor(q88$GEDUCATION, ordered=T)
+q88$Q93 = factor(q88$Q93, ordered=T)
 q88$RACE_RECODE_CAT5 = factor(q88$RACE_RECODE_CAT5)
-q88$POVERTYCAT_I = factor(q88$POVERTYCAT_I)
-q88$HINC_I = factor(q88$HINC_I)
-q88$HINC_I_strat = factor(q88$HINC_I_strat)
+q88$POVERTYCAT_I = factor(q88$POVERTYCAT_I, ordered=T)
+q88$HINC_I = factor(q88$HINC_I, ordered=T)
+q88$HINC_I_strat = factor(q88$HINC_I_strat, ordered=T)
 
 # remove the redundant income features --> use POVERTYCAT_I
 q88sub = q88[, !names(q88) %in% c("HINC_I", "HINC_I_means", "HINC_I_strat")]
@@ -24,22 +24,26 @@ q88sub = q88[, !names(q88) %in% c("HINC_I", "HINC_I_means", "HINC_I_strat")]
 # all variables
 q88logit = glm(Q88 ~ ., data=q88, family="binomial")
 summary(q88logit)
+BIC(q88logit)
 
 # all variables, q88sub
 q88sublogit = glm(Q88 ~ ., data=q88sub, family="binomial")
 summary(q88sublogit)
+BIC(q88sublogit)
 
 # Forward & Backward Feature Selection, BIC
 step_both_BIC = step(q88logit, direction="both",
                      scope=list(lower=Q88 ~ TRANS_CIS,
-                                upper=Q88 ~ .^2), k=log(1364))
+                                upper=Q88 ~ .^2), k=log(nrow(q88)))
 summary(step_both_BIC)
+BIC(step_both_BIC)
 
 # Forward & Backward Feature Selection, BIC, q88sub
 step_both_BIC_sub = step(q88sublogit, direction="both",
                          scope=list(lower=Q88 ~ TRANS_CIS,
-                                    upper=Q88 ~ .^2), k=log(1364))
+                                    upper=Q88 ~ .^2), k=log(nrow(q88sub)))
 summary(step_both_BIC_sub)
+BIC(step_both_BIC_sub)
 
 # Forward & Backward Feature Selection, BIC, regsubsets
 ffs = regsubsets(Q88 ~ ., data=q88, method="forward")
@@ -92,13 +96,43 @@ lasso.coef.sub = predict(out.sub, type="coefficients", s=bestlam.sub)[1:ncol(x.s
 lasso.coef.sub
 lasso.coef.sub[lasso.coef.sub!=0]
 
-# refit logistic regression model using stepwise features
+# refit logistic regression model using step_both_BIC (and step_both_BIC_sub)
 q88logit_stepwise = glm(Q88 ~ TRANS_CIS + AGE + Q93 + POVERTYCAT_I, data=q88sub, family="binomial")
 summary(q88logit_stepwise)
+BIC(q88logit_stepwise)
 
-# refit logistic regression model using lasso features
-q88logit_lasso = glm(Q88 ~ TRANS_CIS + AGE + RACE_RECODE_CAT5 + Q93 + GEDUCATION, data=q88sub, family="binomial")
+# refit logistic regression model using ffs
+q88logit_ffs = glm(Q88 ~ TRANS_CIS + POVERTYCAT_I + AGE + Q93 + HINC_I + RACE_RECODE_CAT5, data=q88, family="binomial")
+summary(q88logit_ffs)
+BIC(q88logit_ffs)
+
+# refit logistic regression model using bfs
+q88logit_bfs = glm(Q88 ~ TRANS_CIS + POVERTYCAT_I + AGE + Q93 + HINC_I + GEDUCATION, data=q88, family="binomial")
+summary(q88logit_bfs)
+BIC(q88logit_bfs)
+
+# refit logistic regression model using ffs_sub
+q88logit_ffs_sub = glm(Q88 ~ TRANS_CIS + POVERTYCAT_I + AGE + Q93 + RACE_RECODE_CAT5, data=q88sub, family="binomial")
+summary(q88logit_ffs_sub)
+BIC(q88logit_ffs_sub)
+
+# refit logistic regression model using bfs_sub
+q88logit_bfs_sub = glm(Q88 ~ TRANS_CIS + POVERTYCAT_I + AGE + Q93 + GEDUCATION, data=q88sub, family="binomial")
+summary(q88logit_bfs_sub)
+BIC(q88logit_bfs_sub)
+
+# refit logistic regression model using lasso.coef
+q88logit_lasso = glm(Q88 ~ TRANS_CIS + HINC_I + AGE + RACE_RECODE_CAT5 + Q93 + POVERTYCAT_I, 
+                     data=q88, 
+                     family="binomial"
+                     )
 summary(q88logit_lasso)
+BIC(q88logit_lasso)
+
+# refit logistic regression model using lasso.coef.sub
+q88logit_lasso.sub = glm(Q88 ~ TRANS_CIS + AGE + RACE_RECODE_CAT5 + Q93 + POVERTYCAT_I, data=q88sub, family="binomial")
+summary(q88logit_lasso.sub)
+BIC(q88logit_lasso.sub)
 
 ##### SCRATCH
 
