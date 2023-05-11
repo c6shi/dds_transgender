@@ -6,6 +6,9 @@ library(MASS)
 library(leaps)
 library(glmnet)
 library(plotmo)
+library(dplyr)
+library(ggplot2)
+library(effects)
 
 # Load in data
 q88 = read.csv("q88.csv", header=T)
@@ -133,6 +136,11 @@ BIC(q88logit_lasso)
 q88logit_lasso.sub = glm(Q88 ~ TRANS_CIS + AGE + RACE_RECODE_CAT5 + Q93 + POVERTYCAT_I, data=q88sub, family="binomial")
 summary(q88logit_lasso.sub)
 BIC(q88logit_lasso.sub)
+
+# graph q88logit_stepwise
+plot(Q88 ~ TRANS_CIS + AGE + Q93 + POVERTYCAT_I, data=q88sub)
+plot(allEffects(q88logit_stepwise))
+
 
 ##### SCRATCH
 
