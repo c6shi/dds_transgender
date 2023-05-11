@@ -43,10 +43,10 @@ $Y \sim \beta_0 + \beta_1 G$
 q88logitv1 = glm(Q88 ~ TRANS_CIS, data=q88, family="binomial")
 summary(q88logitv1)
 BIC(q88logitv1)
-confint(q88logitv1)
+confint(q88logitv1, level=0.9)
 ```
 
-There is no multicollinearity to consider because there is only one feature. With this model, we reject $H_0$ because $\beta_1 = 1.1736$ with a p-value of $2.39 \times 10^{-12}$. Given a standard error of $0.1674$, its 95% CI is $[0.8430526, \infty)$.
+There is no multicollinearity to consider because there is only one feature. With this model, we reject $H_0$ because $\beta_1 = 1.1736$ with a p-value of $2.39 \times 10^{-12}$. Given a standard error of $0.1674$, its 95% CI is $[0.8626819, \infty)$.
 
 \newpage
 # (V2a) Household Income Imputated, 14 Ordinal Categories
@@ -58,10 +58,10 @@ q88logitv2a = glm(Q88 ~ TRANS_CIS + HINC_I, data=q88, family="binomial")
 summary(q88logitv2a)
 vif(q88logitv2a)
 BIC(q88logitv2a)
-confint(q88logitv2a)
+confint(q88logitv2a, level=0.9)
 ```
 
-As shown by the VIFs, there is no significant multicollinearity. With this model, we reject $H_0$ because $\beta_1 = 0.92693$ with a p-value of $1.49 \times 10^{-7}$. Given a standard error of $0.17644$, its 95% CI is $[0.5785093, \infty)$.
+As shown by the VIFs, there is no significant multicollinearity. With this model, we reject $H_0$ because $\beta_1 = 0.92693$ with a p-value of $1.49 \times 10^{-7}$. Given a standard error of $0.17644$, its 95% CI is $[0.6051514, \infty)$.
 
 \newpage
 # (V2b) Household Income Imputated, Means of Bins
@@ -74,10 +74,10 @@ q88logitv2b = glm(Q88 ~ TRANS_CIS + HINC_I_means, data=q88, family="binomial")
 summary(q88logitv2b)
 vif(q88logitv2b)
 BIC(q88logitv2b)
-confint(q88logitv2b)
+confint(q88logitv2b, level=0.9)
 ```
 
-Again, we don't see multicollinearity as the VIF scores are near 1. We also reject $H_0$ because $\beta_1 = 0.9264$ with a p-value of $9.84 \times 10^{-8}$. Given a standard error of $0.1738$, its 95% CI is $[0.5831262, \infty)$.
+Again, we don't see multicollinearity as the VIF scores are near 1. We also reject $H_0$ because $\beta_1 = 0.9264$ with a p-value of $9.84 \times 10^{-8}$. Given a standard error of $0.1738$, its 95% CI is $[0.6103289, \infty)$.
 
 \newpage
 # (V2c) Household Income Imputated, 3 Ordinal Categories
@@ -91,7 +91,7 @@ q88logitv2c = glm(Q88 ~ TRANS_CIS + HINC_I_strat, data=q88, family="binomial")
 summary(q88logitv2c)
 vif(q88logitv2c)
 BIC(q88logitv2c)
-confint(q88logitv2c)
+confint(q88logitv2c, level=0.9)
 ```
 
 \newpage
