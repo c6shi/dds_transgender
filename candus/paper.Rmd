@@ -1,0 +1,47 @@
+---
+title: "Transgender Healthcare in the U.S."
+author: |
+  | Zhen Fang, Candus Shi, Jiyeon Song, Yuancheng Cao
+  | Diversity in Data Science @ University of California, San Diego
+date: 'May 18, 2023'
+output: pdf_document
+fontsize: 8pt
+geometry: margin=1in
+spacing: single
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# List of Figures and Tables
+
+# 1 Introduction
+
+# 2 Dataset & EDA
+
+# 3 Methods
+
+The high-level hypothesis we propose is that transgenders have worse health care and health care access than cisgenders. To test this, we split health care into different subsets based on the questions available in the survey and conduct hypothesis tests on the coefficient of the transgender-vs-cisgender variable in each regression model. To account for multiple testing issues such as family-wise error rate (FWER) and false discovery rate (FDR), we implement the Benjamini-Hochberg Procedure in our decision rules for each test.
+
+Model-specific methods. 
+
+# 4 Models
+
+## 4.1 Cost
+
+## 4.2 HIV
+
+## 4.3 Mental Health
+
+## 4.4 Insurance
+
+# 5 Inference & Results
+
+# 6 Conclusion
+
+# Acknowledgements
+
+We thank Dr. Haojian Jin, Dr. Daniel Ries, Yuyao Wang, and Suraj Rampure for extensive discussions and guidance. 
+
+# References
