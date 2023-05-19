@@ -11,20 +11,40 @@ spacing: single
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warnings=FALSE, message=FALSE)
 ```
-
-# List of Figures and Tables
-
 # 1 Introduction
 
+explain about health care + anti-trans laws involving gender-affirming care bans, etc.
+
 # 2 Dataset & EDA
+
+The dataset was obtained from the public-use data of the 2016-2018 TransPop Study, available on ICPSR and conducted by researchers at the Williams Institute at UCLA. TransPop is “the first national probability sample of transgender individuals in the United States” consisting of three surveys: TransPop 1 (April - August 2016), TransPop 2 (June 2017 - December 2018), and a cisgender national probability sample for the purpose of comparison (February 19 - 23, 2018 and November 12 - December 10, 2018). In total, there are 274 transgenders and 1,162 cisgenders in the dataset. The combined dataset has a dimension of 1,436 rows and 613 columns. Below is a snapshot of the dataset.
+\pagebreak
+```{r load_data}
+library(tidyverse)
+library(stargazer)
+library(kableExtra)
+combined = read.csv("../data/combined.csv")
+t(head(combined, 1)[1:32]) %>%
+  kable(format = "latex", booktabs = TRUE, caption = "a sample row") %>%
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>% 
+  footnote(general = "Table 1 shows the transpose of the first row in the combined dataset, limited to the first 32 columns. The variable or parameter of interest in our models is TRANS_CIS.", footnote_as_chunk=TRUE, general_title="", threeparttable=TRUE)
+```
+
+We conduct some exploratory data analysis on the demographics of the survey respondents, grouped by transgenders and cisgenders.
+\pagebreak
+```{r education}
+library(ggplot2)
+# ggplot(combined, aes(fill=TRANS_CIS, x=RACE_RECODE_CAT5)) +
+#   geom_bar(position="dodge", stat="count")
+```
 
 # 3 Methods
 
 The high-level hypothesis we propose is that transgenders have worse health care and health care access than cisgenders. To test this, we split health care into different subsets based on the questions available in the survey and conduct hypothesis tests on the coefficient of the transgender-vs-cisgender variable in each regression model. To account for multiple testing issues such as family-wise error rate (FWER) and false discovery rate (FDR), we implement the Benjamini-Hochberg Procedure in our decision rules for each test.
 
-Model-specific methods. 
+Model-specific methods. Due to the large number of columns in the dataset, we will selectively choose certain columns to include as covariates in our linear models. This is done subjectively and based on our judgement of whether a certain demographic or question is important or relevant to the question being predicted. Then, we use stepwise subset selection and lasso regression to systematically choose features for the final models. Multicollinearity and two-way interaction terms are considered and considered in each feature selection method. All models are trained on the entire dataset, based on the missingness of all variables (explanatory and prediction). 
 
 # 4 Models
 
